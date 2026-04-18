@@ -1,9 +1,0 @@
--x
-c++
--Iapp/calc/inc
--Iapp/ui/inc
--ID:/Qt/6.11.0/mingw_64/include
--ID:/Qt/6.11.0/mingw_64/include/QtCore
--ID:/Qt/6.11.0/mingw_64/include/QtGui
--ID:/Qt/6.11.0/mingw_64/include/QtWidgets
--std=c++17

@@ -1,4 +1,5 @@
 build/
 output/
+compile_flags.txt
 coding_standards.txt
 requirements.txt

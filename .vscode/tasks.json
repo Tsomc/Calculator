@@ -12,7 +12,7 @@
             "options": {
                 "cwd": "${workspaceFolder}/app",
                 "env": {
-                    "PATH": "D:\\Qt\\Tools\\mingw1310_64\\bin;D:\\Qt\\Tools\\CMake_64\\bin;D:\\Qt\\6.11.0\\mingw_64\\bin;${env:PATH}"
+                    "PATH": "${env:QT_TOOLS_PATH}/mingw1310_64/bin;${env:QT_TOOLS_PATH}/CMake_64/bin;${env:QT_PATH}/bin;${env:PATH}"
                 }
             },
             "problemMatcher": "$gcc",
@@ -36,7 +36,7 @@
             "options": {
                 "cwd": "${workspaceFolder}/app",
                 "env": {
-                    "PATH": "D:\\Qt\\Tools\\mingw1310_64\\bin;D:\\Qt\\Tools\\CMake_64\\bin;D:\\Qt\\6.11.0\\mingw_64\\bin;${env:PATH}"
+                    "PATH": "${env:QT_TOOLS_PATH}/mingw1310_64/bin;${env:QT_TOOLS_PATH}/CMake_64/bin;${env:QT_PATH}/bin;${env:PATH}"
                 }
             },
             "problemMatcher": []
