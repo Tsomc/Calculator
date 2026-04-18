@@ -81,6 +81,7 @@ bool CalcHistory::CalcHistoryIsCollapsed() const {
 void CalcHistory::CalcHistoryOnItemClicked(QListWidgetItem* item) {
     if (item != nullptr) {
         QString expression = item->data(Qt::UserRole).toString();
+        historyList->clearSelection();
         emit entryClicked(expression);
     }
 }
@@ -149,6 +150,10 @@ void CalcHistory::CalcHistoryInitStyle() {
         "}"
         "QListWidget::item:hover {"
         "   background-color: #e8e8e8;"
+        "}"
+        "QListWidget::item:selected {"
+        "   background-color: #e0e0e0;"
+        "   color: #222222;"
         "}"
     ).arg(HISTORY_FONT_SIZE));
 }
