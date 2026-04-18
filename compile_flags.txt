@@ -1,4 +1,0 @@
--x
-c++
--Iapp/inc
--std=c++17
