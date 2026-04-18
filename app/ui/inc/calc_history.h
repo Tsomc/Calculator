@@ -29,6 +29,7 @@ public:
 
 signals:
     void entryClicked(const QString& expression);
+    void panelToggled(bool collapsed);
 
 private slots:
     void CalcHistoryOnItemClicked(QListWidgetItem* item);

@@ -25,6 +25,7 @@ public:
     void CalcDisplayClearExpression();
     void CalcDisplayClearAll();
     void CalcDisplayToggleSign();
+    void CalcDisplaySetCompact(bool compact);
 
 signals:
     void expressionChanged(const QString& expression);
@@ -36,6 +37,7 @@ private:
     QLineEdit* expressionEdit;
     QLabel* resultLabel;
     bool isReplacingFullWidth;
+    bool isCompact;
 
     void CalcDisplayInitLayout();
     void CalcDisplayInitStyle();

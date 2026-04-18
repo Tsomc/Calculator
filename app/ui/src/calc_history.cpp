@@ -59,6 +59,7 @@ void CalcHistory::CalcHistoryToggleCollapsed() {
     collapsed = !collapsed;
     historyList->setVisible(!collapsed);
     toggleButton->setText(collapsed ? TOGGLE_EXPAND_TEXT : TOGGLE_COLLAPSE_TEXT);
+    emit panelToggled(collapsed);
 }
 
 /*

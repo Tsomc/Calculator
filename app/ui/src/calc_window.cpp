@@ -251,6 +251,16 @@ void CalcWindow::CalcWindowOnHistoryEntryClicked(const QString& expression) {
 }
 
 /*
+ * Function: Handle history panel toggle - adjust display compact mode
+ * Input: collapsed - true if history panel is collapsed
+ * Output: none
+ * Return: none
+ */
+void CalcWindow::CalcWindowOnHistoryToggled(bool collapsed) {
+    display->CalcDisplaySetCompact(!collapsed);
+}
+
+/*
  * Function: Minimize the window
  * Input: none
  * Output: none
@@ -359,6 +369,8 @@ void CalcWindow::CalcWindowInitLayout() {
     history = new CalcHistory(this);
     connect(history, &CalcHistory::entryClicked,
             this, &CalcWindow::CalcWindowOnHistoryEntryClicked);
+    connect(history, &CalcHistory::panelToggled,
+            this, &CalcWindow::CalcWindowOnHistoryToggled);
 
     mainLayout->addWidget(titleBar);
     mainLayout->addWidget(display);

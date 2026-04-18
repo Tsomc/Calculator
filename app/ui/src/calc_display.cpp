@@ -3,7 +3,9 @@
 
 const int EXPRESSION_FONT_SIZE = 14;
 const int RESULT_FONT_SIZE = 28;
+const int RESULT_FONT_SIZE_COMPACT = 18;
 const int DISPLAY_MIN_HEIGHT = 80;
+const int DISPLAY_MIN_HEIGHT_COMPACT = 50;
 const char* RESULT_PLACEHOLDER = "0";
 
 /*
@@ -12,7 +14,7 @@ const char* RESULT_PLACEHOLDER = "0";
  * Output: none
  * Return: none
  */
-CalcDisplay::CalcDisplay(QWidget* parent) : QWidget(parent), isReplacingFullWidth(false) {
+CalcDisplay::CalcDisplay(QWidget* parent) : QWidget(parent), isReplacingFullWidth(false), isCompact(false) {
     expressionEdit = nullptr;
     resultLabel = nullptr;
     CalcDisplayInitLayout();
@@ -131,6 +133,33 @@ void CalcDisplay::CalcDisplayToggleSign() {
     }
 
     expressionEdit->setText(text);
+}
+
+/*
+ * Function: Toggle compact mode for display area
+ * Input: compact - true to shrink result font and display height, false to restore
+ * Output: none
+ * Return: none
+ */
+void CalcDisplay::CalcDisplaySetCompact(bool compact) {
+    if (isCompact == compact) {
+        return;
+    }
+    isCompact = compact;
+
+    int fontSize = compact ? RESULT_FONT_SIZE_COMPACT : RESULT_FONT_SIZE;
+    int minHeight = compact ? DISPLAY_MIN_HEIGHT_COMPACT : DISPLAY_MIN_HEIGHT;
+
+    resultLabel->setStyleSheet(QString(
+        "QLabel {"
+        "   font-size: %1px;"
+        "   color: #222222;"
+        "   background: transparent;"
+        "   padding: 4px;"
+        "}"
+    ).arg(fontSize));
+
+    setMinimumHeight(minHeight);
 }
 
 /*

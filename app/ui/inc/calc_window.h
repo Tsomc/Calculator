@@ -31,6 +31,7 @@ private slots:
     void CalcWindowOnButtonClicked(const QString& text);
     void CalcWindowOnExpressionChanged(const QString& expression);
     void CalcWindowOnHistoryEntryClicked(const QString& expression);
+    void CalcWindowOnHistoryToggled(bool collapsed);
     void CalcWindowOnMinimize();
     void CalcWindowOnMaximize();
 
