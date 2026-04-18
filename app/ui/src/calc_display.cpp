@@ -3,9 +3,10 @@
 
 const int EXPRESSION_FONT_SIZE = 14;
 const int RESULT_FONT_SIZE = 28;
-const int RESULT_FONT_SIZE_COMPACT = 18;
-const int DISPLAY_MIN_HEIGHT = 80;
-const int DISPLAY_MIN_HEIGHT_COMPACT = 50;
+const int RESULT_FONT_SIZE_COMPACT = 20;
+const int EXPRESSION_MIN_HEIGHT = 24;
+const int RESULT_MIN_HEIGHT = 36;
+const int RESULT_MIN_HEIGHT_COMPACT = 28;
 const char* RESULT_PLACEHOLDER = "0";
 
 /*
@@ -148,7 +149,7 @@ void CalcDisplay::CalcDisplaySetCompact(bool compact) {
     isCompact = compact;
 
     int fontSize = compact ? RESULT_FONT_SIZE_COMPACT : RESULT_FONT_SIZE;
-    int minHeight = compact ? DISPLAY_MIN_HEIGHT_COMPACT : DISPLAY_MIN_HEIGHT;
+    int minHeight = compact ? RESULT_MIN_HEIGHT_COMPACT : RESULT_MIN_HEIGHT;
 
     resultLabel->setStyleSheet(QString(
         "QLabel {"
@@ -159,7 +160,7 @@ void CalcDisplay::CalcDisplaySetCompact(bool compact) {
         "}"
     ).arg(fontSize));
 
-    setMinimumHeight(minHeight);
+    resultLabel->setMinimumHeight(minHeight);
 }
 
 /*
@@ -203,17 +204,17 @@ void CalcDisplay::CalcDisplayInitLayout() {
     expressionEdit->setAlignment(Qt::AlignRight);
     expressionEdit->setPlaceholderText("Expression");
     expressionEdit->setFrame(false);
+    expressionEdit->setMinimumHeight(EXPRESSION_MIN_HEIGHT);
     connect(expressionEdit, &QLineEdit::textChanged,
             this, &CalcDisplay::CalcDisplayOnExpressionEdited);
 
     resultLabel = new QLabel(RESULT_PLACEHOLDER, this);
     resultLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     resultLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    resultLabel->setMinimumHeight(RESULT_MIN_HEIGHT);
 
     layout->addWidget(expressionEdit);
     layout->addWidget(resultLabel);
-
-    setMinimumHeight(DISPLAY_MIN_HEIGHT);
 }
 
 /*
