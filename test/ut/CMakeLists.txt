@@ -4,13 +4,13 @@ project(CalcUT CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(APP_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../app)
+set(CALC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../app/calc)
 
-include_directories(${APP_DIR}/inc)
+include_directories(${CALC_DIR}/inc)
 
 add_executable(calc_ut
     utcase/calc_ut.cpp
-    ${APP_DIR}/src/calc_lexer.cpp
+    ${CALC_DIR}/src/calc_lexer.cpp
 )
 
 set_target_properties(calc_ut PROPERTIES

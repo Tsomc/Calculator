@@ -2,7 +2,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build Calc",
+            "label": "Build App",
             "type": "shell",
             "command": "cmake",
             "args": [
@@ -10,14 +10,20 @@
                 "build"
             ],
             "options": {
-                "cwd": "${workspaceFolder}/app"
+                "cwd": "${workspaceFolder}/app",
+                "env": {
+                    "PATH": "D:\\Qt\\Tools\\mingw1310_64\\bin;D:\\Qt\\Tools\\CMake_64\\bin;D:\\Qt\\6.11.0\\mingw_64\\bin;${env:PATH}"
+                }
             },
             "problemMatcher": "$gcc",
-            "dependsOn": "Configure Calc",
-            "group": "build"
+            "dependsOn": "Configure App",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         },
         {
-            "label": "Configure Calc",
+            "label": "Configure App",
             "type": "shell",
             "command": "cmake",
             "args": [
@@ -28,7 +34,10 @@
                 "."
             ],
             "options": {
-                "cwd": "${workspaceFolder}/app"
+                "cwd": "${workspaceFolder}/app",
+                "env": {
+                    "PATH": "D:\\Qt\\Tools\\mingw1310_64\\bin;D:\\Qt\\Tools\\CMake_64\\bin;D:\\Qt\\6.11.0\\mingw_64\\bin;${env:PATH}"
+                }
             },
             "problemMatcher": []
         },
@@ -75,7 +84,6 @@
                 "cwd": "${workspaceFolder}/test/ut"
             },
             "problemMatcher": "$gcc",
-            "dependsMatcher": "$gcc",
             "dependsOn": "Configure Calc UT",
             "group": "build"
         },
