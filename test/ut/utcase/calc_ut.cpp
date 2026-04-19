@@ -92,6 +92,7 @@ static void TestOperatorToken() {
     UtAssertTokenType("5 - 3", 1, TOKEN_TYPE_OPERATOR_SUB, "SubTokenType");
     UtAssertTokenType("2 * 3", 1, TOKEN_TYPE_OPERATOR_MUL, "MulTokenType");
     UtAssertTokenType("6 / 2", 1, TOKEN_TYPE_OPERATOR_DIV, "DivTokenType");
+    UtAssertTokenType("7 % 3", 1, TOKEN_TYPE_OPERATOR_MOD, "ModTokenType");
 }
 
 static void TestUnaryOperator() {
@@ -126,6 +127,18 @@ static void TestInvalidInput() {
     UtAssertTokenizeError(".", "SingleDot");
 }
 
+static void TestBigNumberProtection() {
+    UtAssertTokenizeSuccess("123456789012345", "DigitLimit15");
+    UtAssertTokenizeError("1234567890123456", "DigitExceeds15");
+    UtAssertTokenizeSuccess("1.23456789012345", "DecimalDigitLimit15");
+    UtAssertTokenizeError("1.234567890123456", "DecimalDigitExceeds15");
+    UtAssertTokenizeSuccess("12345.6789012345", "DecimalDigitLimit15Mixed");
+    UtAssertTokenizeError("12345.67890123456", "DecimalDigitExceeds15Mixed");
+
+    std::string longInput(1025, '1');
+    UtAssertTokenizeError(longInput, "InputLengthExceeds1024");
+}
+
 int main() {
     TestNumberToken();
     TestOperatorToken();
@@ -133,6 +146,7 @@ int main() {
     TestBracketToken();
     TestWhitespaceSkip();
     TestInvalidInput();
+    TestBigNumberProtection();
 
     std::cout << "UT Results: " << g_passCount << " passed, "
               << g_failCount << " failed" << std::endl;

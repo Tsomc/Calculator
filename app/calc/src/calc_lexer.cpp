@@ -8,6 +8,7 @@ const char CHAR_PLUS = '+';
 const char CHAR_MINUS = '-';
 const char CHAR_ASTERISK = '*';
 const char CHAR_SLASH = '/';
+const char CHAR_PERCENT = '%';
 const char CHAR_LEFT_SMALL = '(';
 const char CHAR_RIGHT_SMALL = ')';
 const char CHAR_LEFT_MEDIUM = '[';
@@ -20,6 +21,9 @@ const unsigned char UTF8_BOM_BYTE_1 = 0xBB;
 const unsigned char UTF8_BOM_BYTE_2 = 0xBF;
 const size_t UTF8_BOM_LENGTH = 3;
 
+const size_t MAX_DIGIT_COUNT = 15;
+const size_t MAX_INPUT_LENGTH = 1024;
+
 struct CharTokenEntry {
     char ch;
     TokenType type;
@@ -28,6 +32,7 @@ struct CharTokenEntry {
 const CharTokenEntry CHAR_TOKEN_MAP[] = {
     { CHAR_ASTERISK, TOKEN_TYPE_OPERATOR_MUL },
     { CHAR_SLASH, TOKEN_TYPE_OPERATOR_DIV },
+    { CHAR_PERCENT, TOKEN_TYPE_OPERATOR_MOD },
     { CHAR_LEFT_SMALL, TOKEN_TYPE_BRACKET_LEFT_SMALL },
     { CHAR_RIGHT_SMALL, TOKEN_TYPE_BRACKET_RIGHT_SMALL },
     { CHAR_LEFT_MEDIUM, TOKEN_TYPE_BRACKET_LEFT_MEDIUM },
@@ -61,6 +66,7 @@ static bool CalcIsOperator(TokenType type) {
            type == TOKEN_TYPE_OPERATOR_SUB ||
            type == TOKEN_TYPE_OPERATOR_MUL ||
            type == TOKEN_TYPE_OPERATOR_DIV ||
+           type == TOKEN_TYPE_OPERATOR_MOD ||
            type == TOKEN_TYPE_OPERATOR_NEG;
 }
 
@@ -90,10 +96,12 @@ static bool CalcParseNumber(const std::string& input, size_t& pos, Token& token,
     size_t start = pos;
     size_t inputLen = input.size();
     bool hasDot = false;
+    size_t digitCount = 0;
 
     while (pos < inputLen) {
         char ch = input[pos];
         if (std::isdigit(ch)) {
+            digitCount++;
             pos++;
         } else if (ch == CHAR_DOT) {
             if (hasDot) {
@@ -105,6 +113,11 @@ static bool CalcParseNumber(const std::string& input, size_t& pos, Token& token,
         } else {
             break;
         }
+    }
+
+    if (digitCount > MAX_DIGIT_COUNT) {
+        errorMsg = "异常：数字位数超出上限";
+        return false;
     }
 
     std::string numStr = input.substr(start, pos - start);
@@ -178,6 +191,12 @@ static bool CalcClassifyChar(char ch, const std::vector<Token>& tokens, Token& t
  */
 bool CalcTokenize(const std::string& input, std::vector<Token>& tokens, std::string& errorMsg) {
     tokens.clear();
+
+    if (input.size() > MAX_INPUT_LENGTH) {
+        errorMsg = "异常：输入长度超出上限";
+        return false;
+    }
+
     size_t pos = CalcSkipBom(input);  // 部分编辑器会在文件开头插入BOM，需跳过
     size_t inputLen = input.size();
 

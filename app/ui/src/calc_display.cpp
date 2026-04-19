@@ -267,6 +267,7 @@ static const FullWidthEntry FULL_WIDTH_MAP[] = {
     { 0xFF0D, '-' },
     { 0xFF0A, '*' },
     { 0xFF0F, '/' },
+    { 0xFF05, '%' },
     { 0xFF0E, '.' },
     { 0x3010, '[' },
     { 0x3011, ']' },
@@ -282,7 +283,7 @@ static bool CalcIsAllowedChar(QChar ch) {
     if (ch.isDigit()) {
         return true;
     }
-    if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
+    if (ch == '+' || ch == '-' || ch == '*' || ch == '/' || ch == '%') {
         return true;
     }
     if (ch == '.' || ch == '(' || ch == ')' || ch == '[' || ch == ']' ||
