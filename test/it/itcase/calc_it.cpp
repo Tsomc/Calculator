@@ -48,6 +48,9 @@ static void TestBasicArithmetic() {
     ItAssertResult("2 * 3", 6, "Mul");
     ItAssertResult("6 / 2", 3, "Div");
     ItAssertResult("10 / 3", 10.0 / 3.0, "DivFloat");
+    ItAssertResult("7 % 3", 1, "Mod");
+    ItAssertResult("10 % 4", 2, "ModEven");
+    ItAssertResult("5.5 % 2.5", 0.5, "ModDecimal");
 }
 
 static void TestOperatorPrecedence() {
@@ -55,6 +58,8 @@ static void TestOperatorPrecedence() {
     ItAssertResult("2 * 3 + 4", 10, "MulBeforeAdd2");
     ItAssertResult("10 - 2 * 3", 4, "MulBeforeSub");
     ItAssertResult("8 / 2 + 3", 7, "DivBeforeAdd");
+    ItAssertResult("7 % 3 + 2", 3, "ModBeforeAdd");
+    ItAssertResult("2 + 7 % 3", 3, "ModBeforeAdd2");
 }
 
 static void TestUnaryOperator() {
@@ -81,12 +86,22 @@ static void TestDecimal() {
 static void TestErrorCases() {
     ItAssertError("", "EmptyInput");
     ItAssertError("3 / 0", "DivByZero");
+    ItAssertError("3 % 0", "ModByZero");
     ItAssertError("(3 + 5", "MissingRightBracket");
     ItAssertError("3 + 5)", "MissingLeftBracket");
     ItAssertError("[3 + 5}", "BracketMismatch");
     ItAssertError("(3 + 5]", "BracketMismatch2");
     ItAssertError("3 + @", "InvalidChar");
     ItAssertError("   ", "WhitespaceOnly");
+}
+
+static void TestBigNumberProtection() {
+    ItAssertResult("123456789012345", 123456789012345.0, "DigitLimit15");
+    ItAssertError("1234567890123456", "DigitExceeds15");
+    ItAssertError("1.234567890123456", "DecimalDigitExceeds15");
+
+    std::string longInput(1025, '1');
+    ItAssertError(longInput, "InputLengthExceeds1024");
 }
 
 int main() {
@@ -96,6 +111,7 @@ int main() {
     TestBrackets();
     TestDecimal();
     TestErrorCases();
+    TestBigNumberProtection();
 
     std::cout << "IT Results: " << g_passCount << " passed, "
               << g_failCount << " failed" << std::endl;

@@ -4,6 +4,7 @@
 #include <stack>
 #include <queue>
 #include <vector>
+#include <cmath>
 
 const int PRECEDENCE_NEG = 3;
 const int PRECEDENCE_MUL_DIV = 2;
@@ -22,6 +23,7 @@ static int CalcGetPrecedence(TokenType type) {
         return PRECEDENCE_NEG;
     case TOKEN_TYPE_OPERATOR_MUL:
     case TOKEN_TYPE_OPERATOR_DIV:
+    case TOKEN_TYPE_OPERATOR_MOD:
         return PRECEDENCE_MUL_DIV;
     case TOKEN_TYPE_OPERATOR_ADD:
     case TOKEN_TYPE_OPERATOR_SUB:
@@ -219,6 +221,13 @@ static bool CalcApplyBinaryOp(double left, double right, TokenType opType, doubl
             return false;
         }
         value = left / right;
+        break;
+    case TOKEN_TYPE_OPERATOR_MOD:
+        if (right == DIVISOR_ZERO) {
+            errorMsg = "异常：取余数不能为零";
+            return false;
+        }
+        value = std::fmod(left, right);
         break;
     default:
         errorMsg = "异常：未知的运算符";
